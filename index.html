@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CALATECH</title>
+
+    <link rel="icon" type="image/x-icon" href="public/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="16x16" href="public/favicon/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="public/favicon/favicon-32x32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="public/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="public/favicon/android-chrome-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="public/favicon/android-chrome-512x512.png" />
+    <link rel="manifest" href="public/favicon/site.webmanifest" />
+    <meta name="theme-color" content="#1a1a2e">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <style>
+        @font-face {
+            font-family: "Century Gothic";
+            src: url("public/font/centurygothic.ttf") format("truetype");
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: "Century Gothic";
+            src: url("public/font/centurygothic_bold.ttf") format("truetype");
+            font-weight: 700;
+            font-display: swap;
+        }
+
+        :root {
+            --calatech-primary: #004d00;
+            --calatech-dark: #003300;
+            --calatech-light: #006600;
+            --calatech-lighter: #008000;
+            --calatech-pale: #e6f2e6;
+            --calatech-theme: #1a1a2e;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: "Century Gothic", "Trebuchet MS", Arial, sans-serif;
+            background: var(--calatech-pale);
+        }
+
+        .container {
+            width: 380px;
+            padding: 35px;
+            background: white;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 77, 0, 0.15);
+        }
+
+        .brand {
+            margin-bottom: 25px;
+        }
+
+        .brand img {
+            width: 100%;
+            max-width: 310px;
+            height: auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 2px solid #ddd;
+            border-radius: 7px;
+            font-family: inherit;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--calatech-primary);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            padding: 13px;
+            border: none;
+            border-radius: 7px;
+            background: var(--calatech-primary);
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--calatech-dark);
+        }
+
+        #download {
+            background: var(--calatech-lighter);
+        }
+
+        #download:hover {
+            background: var(--calatech-light);
+        }
+
+        #qrcode {
+            margin: 25px auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        #qrcode img {
+            border: 8px solid white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="brand">
+            <img src="public/logo/cover_logo.png" alt="CALATECH">
+            <h1 style="color: var(--calatech-primary); font-size: 24px;">QR CODE GENERATOR</h1>
+        </div>
+
+        <input
+            type="url"
+            id="url"
+            placeholder="Enter URL"
+        >
+
+        <button onclick="generateQR()">
+            Generate QR Code
+        </button>
+
+        <div id="qrcode"></div>
+
+        <button id="download" onclick="downloadQR()">
+            Download PNG
+        </button>
+
+    </div>
+
+    <script>
+        function generateQR() {
+            const url = document.getElementById("url").value.trim();
+
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+
+            document.getElementById("qrcode").innerHTML = "";
+
+            new QRCode(document.getElementById("qrcode"), {
+                text: url,
+                width: 256,
+                height: 256,
+                colorDark: "#004d00",
+                colorLight: "#FFFFFF",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function downloadQR() {
+            const qrImage = document.querySelector("#qrcode img");
+
+            if (!qrImage) {
+                alert("Generate a QR code first");
+                return;
+            }
+
+            const link = document.createElement("a");
+
+            link.href = qrImage.src;
+            link.download = "calatech-qr-code.png";
+
+            link.click();
+        }
+    </script>
+
+</body>
+</html>
